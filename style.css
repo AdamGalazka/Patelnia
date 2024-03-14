@@ -1,0 +1,35 @@
+.adam {
+ margin: 64px;
+ background-color: grey;
+}    
+
+.tata {
+    background-color:rgb(219, 97, 92); 
+    width: 200px;  
+    border: 1px solid green;
+    border-radius: 10%;
+    padding-bottom: 16px;
+    margin-top: 16px;
+}
+#gg1 {
+    margin-top: 16px;    
+}
+#ag1 {
+color: rgba(58, 23, 23, 0.918);
+
+} 
+
+.menu-item {
+    position: relative;
+    padding: 1.2rem;
+    
+}
+
+.numbers {  
+    position: absolute;
+    color: rgb(7, 207, 207);
+    transform: rotate(-60deg);
+    top: 0px;
+    left: 0px;
+}
+      
