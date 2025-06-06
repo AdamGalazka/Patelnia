@@ -1,72 +1,78 @@
+
+Adam Gałązka <adam.galazka12@gmail.com>
+16:30 (0 minut temu)
+do mnie
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Przelicznik walut</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    label, select, input, button { margin: 10px 0; display: block; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Przelicznik Walut</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 2em; }
+  label, select, input { font-size: 1.2em; margin: 0.5em 0; }
+  input[type="number"] { width: 150px; }
+  #result { margin-top: 1em; font-weight: bold; }
+</style>
 </head>
 <body>
-  <h2>Przelicznik walut</h2>
 
-  <label for="amount">Kwota:</label>
-  <input type="number" id="amount" value="1" min="0" step="0.01" />
+<h2>Prosty Przelicznik Walut</h2>
 
-  <label for="from">Z waluty:</label>
-  <select id="from">
-    <option value="PLN">PLN</option>
-    <option value="EUR">EUR</option>
-    <option value="USD">USD</option>
-    <option value="GBP">GBP</option>
-  </select>
+<label for="amount">Kwota:</label><br />
+<input type="number" id="amount" value="1" min="0" step="0.01" />
 
-  <label for="to">Na walutę:</label>
-  <select id="to">
-    <option value="EUR">EUR</option>
-    <option value="PLN">PLN</option>
-    <option value="USD">USD</option>
-    <option value="GBP">GBP</option>
-  </select>
+<br />
 
-  <button onclick="convert()">Przelicz</button>
+<label for="fromCurrency">Z waluty:</label><br />
+<select id="fromCurrency">
+  <option value="PLN">PLN</option>
+  <option value="USD">USD</option>
+  <option value="EUR">EUR</option>
+</select>
 
-  <h3 id="result">Wynik: </h3>
+<br />
 
-  <script>
-    async function convert() {
-      const amount = parseFloat(document.getElementById("amount").value);
-      const from = document.getElementById("from").value;
-      const to = document.getElementById("to").value;
+<label for="toCurrency">Na walutę:</label><br />
+<select id="toCurrency">
+  <option value="PLN">PLN</option>
+  <option value="USD">USD</option>
+  <option value="EUR">EUR</option>
+</select>
 
-      if (isNaN(amount) || amount <= 0) {
-        document.getElementById("result").textContent = "Wpisz poprawną kwotę.";
-        return;
-      }
+<br />
 
-      try {
-        const proxy = "https://corsproxy.io/?";
-        const url = `${proxy}https://api.exchangerate.host/convert?from=${from}&to=${to}&amount=${amount}`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`Błąd HTTP: ${response.status}`);
-        const data = await response.json();
-        if (!data.result) throw new Error("Brak danych");
-        const converted = data.result.toFixed(2);
-        document.getElementById("result").textContent = `Wynik: ${converted} ${to}`;
-      } catch (error) {
-        console.error("Błąd:", error);
-        document.getElementById("result").textContent = "Błąd przy pobieraniu danych.";
-      }
+<button onclick="convert()">Przelicz</button>
+
+<p id="result"></p>
+
+<script>
+  // Kursy względem PLN (możesz aktualizować według bieżących kursów)
+  const rates = {
+    PLN: 1,
+    USD: 4.30,
+    EUR: 4.70
+  };
+
+  function convert() {
+    const amount = parseFloat(document.getElementById('amount').value);
+    const from = document.getElementById('fromCurrency').value;
+    const to = document.getElementById('toCurrency').value;
+
+    if (isNaN(amount) || amount < 0) {
+      alert('Podaj poprawną kwotę');
+      return;
     }
-  </script>
+
+    // Konwersja: najpierw do PLN, potem do docelowej waluty
+    const amountInPLN = amount * rates[from];
+    const converted = amountInPLN / rates[to];
+
+    document.getElementById('result').textContent =
+      `${amount.toFixed(2)} ${from} = ${converted.toFixed(2)} ${to}`;
+  }
+</script>
+
 </body>
 </html>
-
-
-      
-
-
-
-      
